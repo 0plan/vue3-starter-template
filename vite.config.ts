@@ -30,6 +30,10 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
+  server: {
+    open: true,
+    port: 3333,
+  },
 
   plugins: [
     VueMacros({
