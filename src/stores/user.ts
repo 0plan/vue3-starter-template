@@ -24,7 +24,6 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    setNewName,
     otherNames,
     savedName,
   }
