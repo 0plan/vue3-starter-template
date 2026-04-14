@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
-import { ToastClose, type ToastCloseProps } from 'radix-vue'
+import type { ToastCloseProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
 import { X } from 'lucide-vue-next'
+import { ToastClose } from 'radix-vue'
+import { computed } from 'vue'
 import { cn } from '~/lib/utils'
 
 const props = defineProps<ToastCloseProps & {

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
+import type { ProgressRootProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
 import {
   ProgressIndicator,
   ProgressRoot,
-  type ProgressRootProps,
+
 } from 'radix-vue'
+import { computed } from 'vue'
 import { cn } from '~/lib/utils'
 
 const props = withDefaults(
@@ -32,7 +34,7 @@ const delegatedProps = computed(() => {
     "
   >
     <ProgressIndicator
-      class="h-full w-full flex-1 bg-primary transition-all"
+      class="bg-primary h-full w-full flex-1 transition-all"
       :style="`transform: translateX(-${100 - (props.modelValue ?? 0)}%);`"
     />
   </ProgressRoot>

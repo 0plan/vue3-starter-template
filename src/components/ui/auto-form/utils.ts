@@ -1,9 +1,16 @@
 import type { z } from 'zod'
 
+const BRACKETED_INDEX_RE = /\[\d+\]/g
+const CAMEL_CASE_SPLIT_RE = /([A-Z])/g
+const EXTRACT_INDEX_RE = /\[(\d+)\]/
+const NOT_NESTED_PATH_RE = /^\[.+\]$/
+const BRACKET_CLEANUP_RE = /\[|\]/g
+const NESTED_PATH_SPLIT_RE = /\.|\[(\d+)\]/
+
 // TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
-export type ZodObjectOrWrapped =
-  | z.ZodObject<any, any>
-  | z.ZodEffects<z.ZodObject<any, any>>
+export type ZodObjectOrWrapped
+  = | z.ZodObject<any, any>
+    | any
 
 /**
  * Beautify a camelCase string.
@@ -12,7 +19,7 @@ export type ZodObjectOrWrapped =
 export function beautifyObjectName(string: string) {
   // Remove bracketed indices
   // if numbers only return the string
-  let output = string.replace(/\[\d+\]/g, '').replace(/([A-Z])/g, ' $1')
+  let output = string.replace(BRACKETED_INDEX_RE, '').replace(CAMEL_CASE_SPLIT_RE, ' $1')
   output = output.charAt(0).toUpperCase() + output.slice(1)
   return output
 }
@@ -23,9 +30,8 @@ export function beautifyObjectName(string: string) {
  * @returns index or undefined
  */
 export function getIndexIfArray(string: string) {
-  const indexRegex = /\[(\d+)\]/
   // Match the index
-  const match = string.match(indexRegex)
+  const match = string.match(EXTRACT_INDEX_RE)
   // Extract the index (number)
   const index = match ? Number.parseInt(match[1]) : undefined
   return index
@@ -36,15 +42,15 @@ export function getIndexIfArray(string: string) {
  * This will unpack optionals, refinements, etc.
  */
 export function getBaseSchema<
-  ChildType extends z.ZodAny | z.AnyZodObject = z.ZodAny,
->(schema: ChildType | z.ZodEffects<ChildType>): ChildType | null {
+  ChildType = any,
+>(schema: ChildType | any): ChildType | null {
   if (!schema)
     return null
-  if ('innerType' in schema._def)
-    return getBaseSchema(schema._def.innerType as ChildType)
+  if ('innerType' in (schema as any)._def)
+    return getBaseSchema((schema as any)._def.innerType as ChildType)
 
-  if ('schema' in schema._def)
-    return getBaseSchema(schema._def.schema as ChildType)
+  if ('schema' in (schema as any)._def)
+    return getBaseSchema((schema as any)._def.schema as ChildType)
 
   return schema as ChildType
 }
@@ -55,16 +61,14 @@ export function getBaseSchema<
  */
 export function getBaseType(schema: z.ZodAny) {
   const baseSchema = getBaseSchema(schema)
-  return baseSchema ? baseSchema._def.typeName : ''
+  return baseSchema ? (baseSchema as any)._def.typeName : ''
 }
 
 /**
  * Search for a "ZodDefault" in the Zod stack and return its value.
  */
 export function getDefaultValueInZodStack(schema: z.ZodAny): any {
-  const typedSchema = schema as unknown as z.ZodDefault<
-    z.ZodNumber | z.ZodString
-  >
+  const typedSchema = schema as unknown as any
 
   if (typedSchema._def.typeName === 'ZodDefault')
     return typedSchema._def.defaultValue()
@@ -86,8 +90,8 @@ export function getDefaultValueInZodStack(schema: z.ZodAny): any {
 export function getObjectFormSchema(
   schema: ZodObjectOrWrapped,
 ): z.ZodObject<any, any> {
-  if (schema?._def.typeName === 'ZodEffects') {
-    const typedSchema = schema as z.ZodEffects<z.ZodObject<any, any>>
+  if ((schema as any)?._def.typeName === 'ZodEffects') {
+    const typedSchema = schema as any
     return getObjectFormSchema(typedSchema._def.schema)
   }
   return schema as z.ZodObject<any, any>
@@ -122,7 +126,7 @@ type NestedRecord = Record<string, unknown> | { [k: string]: NestedRecord }
  * Checks if the path opted out of nested fields using `[fieldName]` syntax
  */
 export function isNotNestedPath(path: string) {
-  return /^\[.+\]$/i.test(path)
+  return NOT_NESTED_PATH_RE.test(path)
 }
 function isObject(obj: unknown): obj is Record<string, unknown> {
   return obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -132,7 +136,7 @@ function isContainerValue(value: unknown): value is Record<string, unknown> {
 }
 function cleanupNonNestedPath(path: string) {
   if (isNotNestedPath(path))
-    return path.replace(/\[|\]/gi, '')
+    return path.replace(BRACKET_CLEANUP_RE, '')
 
   return path
 }
@@ -158,7 +162,7 @@ export function getFromPath<TValue = unknown, TFallback = TValue>(
     return object[cleanupNonNestedPath(path)] as TValue | undefined
 
   const resolvedValue = (path || '')
-    .split(/\.|\[(\d+)\]/)
+    .split(NESTED_PATH_SPLIT_RE)
     .filter(Boolean)
     .reduce((acc, propKey) => {
       if (isContainerValue(acc) && propKey in acc)

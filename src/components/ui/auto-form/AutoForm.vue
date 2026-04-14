@@ -1,13 +1,14 @@
 <script setup lang="ts" generic="T extends ZodObjectOrWrapped">
-import { computed, toRefs } from 'vue'
-import type { ZodAny, z } from 'zod'
-import { toTypedSchema } from '@vee-validate/zod'
 import type { FormContext, GenericObject } from 'vee-validate'
-import { type ZodObjectOrWrapped, getBaseSchema, getBaseType, getDefaultValueInZodStack, getObjectFormSchema } from './utils'
+import type { z, ZodAny } from 'zod'
 import type { Config, ConfigItem, Dependency, Shape } from './interface'
+import type { ZodObjectOrWrapped } from './utils'
+import { toTypedSchema } from '@vee-validate/zod'
+import { computed, toRefs } from 'vue'
+import { Form } from '~/components/ui/form'
 import AutoFormField from './AutoFormField.vue'
 import { provideDependencies } from './dependencies'
-import { Form } from '~/components/ui/form'
+import { getBaseSchema, getBaseType, getDefaultValueInZodStack, getObjectFormSchema } from './utils'
 
 const props = defineProps<{
   schema: T
@@ -21,7 +22,7 @@ const emits = defineEmits<{
 }>()
 
 const { dependencies } = toRefs(props)
-provideDependencies(dependencies)
+provideDependencies(dependencies as any)
 
 const shapes = computed(() => {
   // @ts-expect-error ignore {} not assignable to object
@@ -39,7 +40,7 @@ const shapes = computed(() => {
       type: getBaseType(item),
       default: getDefaultValueInZodStack(item),
       options,
-      required: !['ZodOptional', 'ZodNullable'].includes(item._def.typeName),
+      required: !['ZodOptional', 'ZodNullable'].includes((item._def as any).typeName),
       schema: baseItem,
     }
   })
@@ -68,7 +69,7 @@ const formComponentProps = computed(() => {
     }
   }
   else {
-    const formSchema = toTypedSchema(props.schema)
+    const formSchema = toTypedSchema(props.schema as any)
     return {
       keepValues: true,
       validationSchema: formSchema,
@@ -94,7 +95,7 @@ const formComponentProps = computed(() => {
           <AutoFormField
             :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
             :field-name="key.toString()"
-            :shape="shape"
+            :shape="shape as any"
           />
         </slot>
       </template>

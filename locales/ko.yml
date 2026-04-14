@@ -9,5 +9,44 @@ intro:
   desc: Vite 애플리케이션 템플릿
   dynamic-route: 다이나믹 라우트 데모
   hi: '{name}님'
-  whats-your-name: 이름이 뭐예요?
+  aka: 또다른 이름
+  whats-your-name: 원하는 이름으로 시작하세요
+site:
+  title: VueForge
+  description: i18n, Tailwind CSS, shadcn-vue를 포함한 현대적인 Vue 3 스타터 템플릿
+home:
+  subtitle: shadcn-vue가 포함된 현대적인 Vue 3 스타터 템플릿
+  feature:
+    shadcn_title: shadcn-vue
+    shadcn_desc: 아름답게 디자인된 컴포넌트
+    vue_title: Vue 3
+    vue_desc: 점진적 프레임워크
+    vite_title: Vite
+    vite_desc: 빠른 프론트엔드 도구
+  sections:
+    demos: 다이나믹 라우트 데모
+    project: 프로젝트 대시보드
+    profile: 사용자 프로필
+    press_enter: Enter 키를 누르면 이동합니다
+    github: GitHub에서 보기
+    project_path: /projects/vueforge-dashboard
+    profile_path: /users/0plan
+project:
+  progress: 진행률
+  deadline: 마감일
+  team_members: 팀원
+  approx_left: 약 4개월 남음
+  active_collaborators: '활동 중인 협업자 {count}명'
+  recent_tasks: 최근 작업
+  completed: 완료
+  in_progress: 진행 중
+  pending: 대기 중
+user:
+  bio: 프론트엔드부터 백엔드까지 제품을 완성도 있게 구현하는 풀스택 개발자입니다. Vue와 Tailwind 기반의 사용자 경험 설계에도 집중하고 있습니다.
+  location: 위치
+  website: 웹사이트
+  follow: 팔로우
+  message: 메시지
+layout:
+  default: 기본 레이아웃
 not-found: 찾을 수 없습니다

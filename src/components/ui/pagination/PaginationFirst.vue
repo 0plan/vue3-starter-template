@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
-import { PaginationFirst, type PaginationFirstProps } from 'radix-vue'
+import type { PaginationFirstProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
 import { ChevronsLeft } from 'lucide-vue-next'
+import { PaginationFirst } from 'radix-vue'
+import { computed } from 'vue'
 import {
   Button,
 } from '~/components/ui/button'

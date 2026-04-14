@@ -2,6 +2,23 @@
   padding: 0;
 }
 
+/* Improve markdown readability in both light and dark themes. */
+.prose {
+  color: hsl(var(--foreground));
+}
+
+.prose :where(p, li, ul, ol, blockquote) {
+  color: hsl(var(--muted-foreground));
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6, strong, th) {
+  color: hsl(var(--foreground));
+}
+
+.prose :where(code, td) {
+  color: hsl(var(--foreground));
+}
+
 .prose .shiki {
   font-family: 'DM Mono', monospace;
   font-size: 1.2em;

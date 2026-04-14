@@ -1,10 +1,13 @@
-import type * as z from 'zod'
 import type { Ref } from 'vue'
-import { computed, ref, watch } from 'vue'
-import { useFieldValue, useFormValues } from 'vee-validate'
+import type * as z from 'zod'
+import type { Dependency, EnumValues } from './interface'
 import { createContext } from 'radix-vue'
-import { type Dependency, DependencyType, type EnumValues } from './interface'
+import { useFieldValue, useFormValues } from 'vee-validate'
+import { computed, ref, watch } from 'vue'
+import { DependencyType } from './interface'
 import { getFromPath, getIndexIfArray } from './utils'
+
+const ARRAY_INDEX_PATH_RE = /\[\d+\]/g
 
 export const [injectDependencies, provideDependencies] = createContext<Ref<Dependency<z.infer<z.ZodObject<any>>>[] | undefined>>('AutoFormDependencies')
 
@@ -13,7 +16,7 @@ export default function useDependencies(
 ) {
   const form = useFormValues()
   // parsed test[0].age => test.age
-  const currentFieldName = fieldName.replace(/\[\d+\]/g, '')
+  const currentFieldName = fieldName.replace(ARRAY_INDEX_PATH_RE, '')
   const currentFieldValue = useFieldValue<any>(fieldName)
 
   if (!form)

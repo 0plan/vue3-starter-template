@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
-import { ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb } from 'radix-vue'
+import type { ScrollAreaScrollbarProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { ScrollAreaScrollbar, ScrollAreaThumb } from 'radix-vue'
+import { computed } from 'vue'
 import { cn } from '~/lib/utils'
 
 const props = withDefaults(defineProps<ScrollAreaScrollbarProps & { class?: HTMLAttributes['class'] }>(), {
@@ -25,6 +27,6 @@ const delegatedProps = computed(() => {
            && 'h-2.5 flex-col border-t border-t-transparent p-px',
          props.class)"
   >
-    <ScrollAreaThumb class="relative flex-1 rounded-full bg-border" />
+    <ScrollAreaThumb class="bg-border relative flex-1 rounded-full" />
   </ScrollAreaScrollbar>
 </template>
