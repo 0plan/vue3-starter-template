@@ -1,13 +1,13 @@
 <script setup lang="ts" generic="T extends ZodRawShape">
 import type { ZodAny, ZodObject, ZodRawShape } from 'zod'
-import { computed, provide } from 'vue'
-import { FieldContextKey, useField } from 'vee-validate'
-import AutoFormField from './AutoFormField.vue'
 import type { Config, ConfigItem, Shape } from './interface'
-import { beautifyObjectName, getBaseSchema, getBaseType, getDefaultValueInZodStack } from './utils'
-import AutoFormLabel from './AutoFormLabel.vue'
+import { FieldContextKey, useField } from 'vee-validate'
+import { computed, provide } from 'vue'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion'
 import { FormItem } from '~/components/ui/form'
+import AutoFormField from './AutoFormField.vue'
+import AutoFormLabel from './AutoFormLabel.vue'
+import { beautifyObjectName, getBaseSchema, getBaseType, getDefaultValueInZodStack } from './utils'
 
 const props = defineProps<{
   fieldName: string
@@ -23,12 +23,12 @@ const shapes = computed(() => {
 
   if (!props.schema)
     return
-  const shape = getBaseSchema(props.schema)?.shape
+  const shape = (getBaseSchema(props.schema) as any)?.shape
   if (!shape)
     return
   Object.keys(shape).forEach((name) => {
     const item = shape[name] as ZodAny
-    let options = 'values' in item._def ? item._def.values as string[] : undefined
+    let options = 'values' in (item._def as any) ? (item._def as any).values as string[] : undefined
     if (!Array.isArray(options) && typeof options === 'object')
       options = Object.values(options)
 
@@ -36,7 +36,7 @@ const shapes = computed(() => {
       type: getBaseType(item),
       default: getDefaultValueInZodStack(item),
       options,
-      required: !['ZodOptional', 'ZodNullable'].includes(item._def.typeName),
+      required: !['ZodOptional', 'ZodNullable'].includes((item._def as any).typeName),
       schema: item,
     }
   })
@@ -65,7 +65,7 @@ provide(FieldContextKey, fieldContext)
                   :config="config?.[key as keyof typeof config] as ConfigItem"
                   :field-name="`${fieldName}.${key.toString()}`"
                   :label="key.toString()"
-                  :shape="shape"
+                  :shape="shape as any"
                 />
               </template>
             </AccordionContent>

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { type HTMLAttributes, computed } from 'vue'
-import { CalendarRoot, type CalendarRootEmits, type CalendarRootProps, useForwardPropsEmits } from 'radix-vue'
-import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from '.'
+import type { CalendarRootEmits, CalendarRootProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { CalendarRoot, useForwardPropsEmits } from 'radix-vue'
+import { computed } from 'vue'
 import { cn } from '~/lib/utils'
+import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from '.'
 
 const props = defineProps<CalendarRootProps & { class?: HTMLAttributes['class'] }>()
 
@@ -29,7 +31,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       <CalendarNextButton />
     </CalendarHeader>
 
-    <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
+    <div class="mt-4 flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
       <CalendarGrid v-for="month in grid" :key="month.value.toString()">
         <CalendarGridHead>
           <CalendarGridRow>

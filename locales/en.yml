@@ -10,5 +10,43 @@ intro:
   dynamic-route: Demo of dynamic route
   hi: Hi, {name}!
   aka: Also known as
-  whats-your-name: What's your name?
+  whats-your-name: Start with the name you want
+site:
+  title: VueForge
+  description: A modern Vue 3 starter template with i18n, Tailwind CSS, and shadcn-vue
+home:
+  subtitle: Modern Vue 3 starter template with shadcn-vue
+  feature:
+    shadcn_title: shadcn-vue
+    shadcn_desc: Beautifully designed components
+    vue_title: Vue 3
+    vue_desc: The progressive framework
+    vite_title: Vite
+    vite_desc: Fast frontend tooling
+  sections:
+    demos: Dynamic Route Demos
+    project: Project Dashboard
+    profile: User Profile
+    press_enter: Press Enter to continue
+    github: View on GitHub
+    project_path: /projects/vueforge-dashboard
+    profile_path: /users/0plan
+project:
+  progress: Progress
+  deadline: Deadline
+  team_members: Team Members
+  approx_left: Approx. 4 months left
+  active_collaborators: '{count} active collaborators'
+  recent_tasks: Recent Tasks
+  completed: Completed
+  in_progress: In Progress
+  pending: Pending
+user:
+  bio: Fullstack developer focused on shipping complete products from frontend to backend. I also care deeply about crafting polished UX with Vue and Tailwind.
+  location: Location
+  website: Website
+  follow: Follow
+  message: Message
+layout:
+  default: Default Layout
 not-found: Not found

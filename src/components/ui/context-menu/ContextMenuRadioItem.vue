@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
+import type { ContextMenuRadioItemEmits, ContextMenuRadioItemProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { Circle } from 'lucide-vue-next'
 import {
   ContextMenuItemIndicator,
   ContextMenuRadioItem,
-  type ContextMenuRadioItemEmits,
-  type ContextMenuRadioItemProps,
+
   useForwardPropsEmits,
 } from 'radix-vue'
-import { Circle } from 'lucide-vue-next'
+import { computed } from 'vue'
 import { cn } from '~/lib/utils'
 
 const props = defineProps<ContextMenuRadioItemProps & { class?: HTMLAttributes['class'] }>()
@@ -30,7 +31,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       props.class,
     )"
   >
-    <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span class="absolute left-2 h-3.5 w-3.5 flex items-center justify-center">
       <ContextMenuItemIndicator>
         <Circle class="h-2 w-2 fill-current" />
       </ContextMenuItemIndicator>

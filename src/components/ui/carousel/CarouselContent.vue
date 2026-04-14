@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useCarousel } from './useCarousel'
 import type { WithClassAsProps } from './interface'
 import { cn } from '~/lib/utils'
+import { useCarousel } from './useCarousel'
 
 defineOptions({
   inheritAttrs: false,
@@ -10,6 +10,8 @@ defineOptions({
 const props = defineProps<WithClassAsProps>()
 
 const { carouselRef, orientation } = useCarousel()
+// eslint-disable-next-line ts/no-unused-expressions
+carouselRef
 </script>
 
 <template>

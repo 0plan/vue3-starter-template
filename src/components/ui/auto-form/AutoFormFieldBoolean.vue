@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { beautifyObjectName } from './utils'
 import type { FieldProps } from './interface'
-import AutoFormLabel from './AutoFormLabel.vue'
+import { computed } from 'vue'
+import { Checkbox } from '~/components/ui/checkbox'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '~/components/ui/form'
 import { Switch } from '~/components/ui/switch'
-import { Checkbox } from '~/components/ui/checkbox'
+import AutoFormLabel from './AutoFormLabel.vue'
+import { beautifyObjectName } from './utils'
 
 const props = defineProps<FieldProps>()
 
@@ -15,7 +15,7 @@ const booleanComponent = computed(() => props.config?.component === 'switch' ? S
 <template>
   <FormField v-slot="slotProps" :name="fieldName">
     <FormItem>
-      <div class="space-y-0 mb-3 flex items-center gap-3">
+      <div class="mb-3 flex items-center gap-3 space-y-0">
         <FormControl>
           <slot v-bind="slotProps">
             <component

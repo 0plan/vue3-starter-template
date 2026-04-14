@@ -2,16 +2,18 @@
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
-useHead({
-  title: 'vite-vue3-starter-template',
+const { t } = useI18n()
+
+useHead(() => ({
+  title: t('site.title'),
   meta: [
     {
       name: 'description',
-      content: 'Opinionated Vite Starter Template',
+      content: t('site.description'),
     },
     {
       name: 'theme-color',
-      content: () => isDark.value ? '#00aba9' : '#ffffff',
+      content: isDark.value ? '#00aba9' : '#ffffff',
     },
   ],
   link: [
@@ -21,9 +23,11 @@ useHead({
       href: () => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg',
     },
   ],
-})
+}))
 </script>
 
 <template>
-  <RouterView />
+  <div class="relative min-h-screen overflow-x-hidden bg-background text-foreground font-sans">
+    <RouterView />
+  </div>
 </template>
