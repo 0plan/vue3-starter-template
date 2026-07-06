@@ -55,10 +55,10 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-i18n',
-        '@vueuse/head',
         '@vueuse/core',
         VueRouterAutoImports,
         {
+          '@unhead/vue': ['useHead', 'useSeoMeta'],
           // add any other imports you were relying on
           'vue-router/auto': ['useLink'],
         },
